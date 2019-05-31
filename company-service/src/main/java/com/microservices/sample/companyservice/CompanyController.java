@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 
@@ -24,6 +25,8 @@ public class CompanyController {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @Autowired
+    EmployeeClient employeeClient;
 
     @GetMapping("/{id}")
     public Company findById(@PathVariable("id") Long id) {
@@ -36,7 +39,10 @@ public class CompanyController {
     public Company findByIdWithEmployees(@PathVariable("id") Long id) {
         LOGGER.info("Organization find with employees: id={}", id);
         Company organization = companyRepository.findById(id).get();
-//   organization.setEmployees(employeeClient.findByOrganization(organization.getId()));
+        List<CompanyEmployee> employees = employeeClient.findByOrganization(organization.getId());
+        LOGGER.info("Organization employees: id={}", employees.toArray().toString());
+
+        organization.setEmployees(employees);
         return organization;
     }
 
@@ -52,7 +58,5 @@ public class CompanyController {
             repository.findAll().forEach(System.out::println);
         };
     }
-
-
 }
 

@@ -3,6 +3,8 @@ package com.microservices.sample.companyservice;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+import java.util.List;
 
 @Entity
 class Company {
@@ -20,6 +22,9 @@ class Company {
 
     private String name;
 
+    @Transient
+    List<CompanyEmployee> employees;
+
     public Long getId() {
         return id;
     }
@@ -34,5 +39,13 @@ class Company {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<CompanyEmployee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<CompanyEmployee> employees) {
+        this.employees = employees;
     }
 }
