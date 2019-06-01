@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "employee-service")
+@FeignClient(name = "employee-service", fallback = EmployeeClientFallback.class)
 public interface EmployeeClient {
     @GetMapping("/employee/company/{id}")
     List<CompanyEmployee> findByOrganization(@PathVariable("id") Long id);
